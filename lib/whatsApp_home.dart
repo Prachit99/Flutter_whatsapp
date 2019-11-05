@@ -14,12 +14,22 @@ class WhatsAppHome extends StatefulWidget{
 class _WhatsAppHomeState extends State<WhatsAppHome> 
   with SingleTickerProviderStateMixin {
     TabController _tabController;
+    bool showFab = true;
 
     @override 
     void initState(){
       super.initState();
 
       _tabController=new TabController(vsync: this, initialIndex: 1, length: 4);
+      _tabController.addListener((){
+        if(_tabController.index == 1){
+          showFab = true;
+        }
+        else{
+          showFab = false;
+        }
+        setState(() {});
+      });
     }
   
   
@@ -64,11 +74,13 @@ class _WhatsAppHomeState extends State<WhatsAppHome>
           new CallScreen(),
         ],
       ),
-      floatingActionButton: new FloatingActionButton(
-        backgroundColor: Colors.green,
-        child: new Icon(Icons.message, color: Colors.white),
-        onPressed: ()=> print("open chats"),
-      ),
+      floatingActionButton: showFab
+      ? new FloatingActionButton(
+          backgroundColor: Colors.green,
+          child: new Icon(Icons.message, color: Colors.white),
+          onPressed: ()=> print("open chats"),
+        )
+      :null,
     );
   }
 }
